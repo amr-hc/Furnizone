@@ -1,0 +1,126 @@
+<button class="showModal" data-bs-toggle="modal" data-bs-target="#editInfo">
+  <div class="svg-wrapper-1">
+    <div class="svg-wrapper">
+      <i class="fa-solid fa-pen-to-square edit"></i>
+    </div>
+  </div>
+  <span>Edit</span>
+</button>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="editInfo"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit User Info</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="mb-3 row align-items-center">
+            <label for="fullName" class="form-label col-3">Full Name :</label>
+            <input
+              type="text"
+              class="form-control col"
+              [ngClass]="{
+                'is-invalid': fullName?.errors && fullName?.touched
+              }"
+              id="fullName"
+              formControlName="full_name"
+              placeholder="Enter your desired name"
+            />
+            @if (fullName?.hasError('required')) {
+            <p class="invalid-feedback text-center">Full Name is rquired</p>
+            }
+          </div>
+          <div class="mb-3 row align-items-center">
+            <label for="email" class="form-label col-3">Email :</label>
+            <input
+              type="email"
+              class="form-control col"
+              [ngClass]="{
+                'is-invalid': email?.errors && email?.touched
+              }"
+              id="email"
+              formControlName="email"
+              placeholder="Enter your desired email"
+            />
+            @if (email?.hasError('required')) {
+            <p class="invalid-feedback text-center">Email is rquired</p>
+            } @if (email?.hasError('email')) {
+            <p class="invalid-feedback text-center">Invalid email format</p>
+            }
+          </div>
+          <div class="mb-3 row justify-content-center">
+            <div class="col-3">
+              <input
+                type="radio"
+                class="btn-check"
+                name="gender"
+                id="male"
+                value="male"
+                formControlName="gender"
+                autocomplete="off"
+                checked
+              />
+              <label class="btn btn-outline-dark" for="male">Male</label>
+            </div>
+
+            <div class="col-3">
+              <input
+                type="radio"
+                class="btn-check"
+                name="gender"
+                id="female"
+                value="female"
+                formControlName="gender"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-danger" for="female">Female</label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="pic" class="form-label">Upload Profile Picture</label>
+            <input
+              class="form-control"
+              formControlName="image"
+              [ngClass]="{
+                'is-invalid': image?.errors && image?.touched
+              }"
+              type="file"
+              id="pic"
+            />
+            @if (image?.hasError('required')) {
+              <p class="invalid-feedback text-center">Image is rquired</p>
+              }
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            class="btn btn-primary"
+            [attr.data-bs-dismiss]="editForm.valid ? 'modal' : null"
+          >
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

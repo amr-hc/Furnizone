@@ -1,0 +1,96 @@
+<div class="container-fluid">
+    <div class="row align-items-center no-gutters">
+        <div class="col-6 image-container my-5">
+            <img src="./assets/images/image-600x600-2.jpg" class="img-fluid">
+            <div class="overlay2"></div>
+        </div>
+        
+        <div class="col-6 text-container">
+          <h1 class="display-5 gray-text text-center">Welcome to our furniture store</h1>
+          <p class="display-5 text-center">Explore our extensive collection of beautifully crafted furniture pieces designed to enhance your living space. Whether you're furnishing your cozy apartment, updating your modern home, or decorating your elegant office, we have everything you need to create your dream interior. From timeless classics to contemporary designs , discover us .</p>
+        </div>
+        
+    </div>
+</div>
+
+<div class="container">
+    <div class="row my-5 header">
+        <h1 class="col-12 text-center text-light display-4" id="animateTitle">Explore Our Unique Furniture Collection</h1>
+    </div>
+</div>
+
+
+
+<div class="container-fluid"> 
+    <div class="row">
+        <div *ngFor="let panel of panels" class="panel-container">
+            <div class="panel" [style.backgroundImage]="getPanelBackground(panel)">
+                <div class="overlay">
+                    <p class="text-light">Shop with us and discover</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row align-items-center no-gutters">
+
+        <div class="col-6 text-content">
+            <h1 class="display-5 gray-text text-center">Wide range of high-quality furniture </h1>
+            <p class="display-5 text-center">Explore our extensive collection of beautifully crafted furniture pieces designed to enhance your living space. Whether you're furnishing your cozy apartment, updating your modern home, or decorating your elegant office, we have everything you need to create your dream interior. From timeless classics to contemporary </p>
+        </div>
+
+        <div class="col-6 image-content my-5">
+            <img src="./assets/images/about-image.jpg" class="img-fluid">
+            <div class="overlay2"></div>
+        </div>  
+
+    </div>
+</div>
+
+
+
+<div class="container-fluid">
+    <div class="row align-items-center no-gutters position-relative">
+        <div class="col-6 text-container">
+            <h1 class="display-5 gray-text text-center">Every home deserves the touch of elegance</h1>
+            <p class="display-5 text-center">
+                We prioritize customer satisfaction above all else, and our dedicated team is committed to providing you with exceptional service every step of the way. Whether you're browsing our online store or seeking personalized recommendations, we're here to assist you in finding the perfect furniture pieces to elevate your space.
+            </p>
+        </div>
+        <div class="col-6 image-container">
+            <img src="./assets/images/banner-backgroundimage.jpg" class="img-fluid">
+            <div class="overlay2"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="container my-5">
+    <div class="row header">
+        <h5 class="display-4 text-center  text-light">Thank You for Visiting Our Furniture Store</h5>
+    </div>
+    <div class="row my-5">
+        
+        <div class="col-4 position-relative">
+            <img src="./assets/images/image-600x400-1.jpg" class="img-fluid" alt="Image 1">
+            <div class="overlay3 display-5">Thank you </div>
+        </div>
+        <div class="col-4 position-relative">
+            <img src="./assets/images/image-600x400-2.jpg" class="img-fluid" alt="Image 2">
+            <div class="overlay3 display-5"> for your</div>
+        </div>
+        <div class="col-4 position-relative">
+            <img src="./assets/images/image-600x400-3.jpg" class="img-fluid" alt="Image 3">
+            <div class="overlay3 display-5">visit</div>
+        </div>
+    </div>
+</div>

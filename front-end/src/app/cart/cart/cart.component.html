@@ -1,0 +1,92 @@
+<div class="container py-5">
+  <div class="d-flex align-items-center my-3">
+
+    <label for="check-all" class="m-0 mx-3 display-6">Shopping Cart</label>
+  </div>
+  @if (cartItems.length > 0) {
+  <div class="row">
+    <div class="col-12 col-lg-8">
+      @for (cart of cartItems; track $index) {
+      <div
+        class="d-flex my-2 p-3 border-2 border-dark border-bottom align-items-center"
+      >
+        <div class="d-flex align-items-center gap-3">
+          
+          <label class="form-check-label d-none" for="order-{{ $index }}"
+            >check</label
+          >
+          <img
+            class="img-responsive border-2 border-dark"
+            width="100"
+            height="100"
+            [src]="cart.product?.image_url"
+            alt="{{ cart.product?.title }}"
+          />
+        </div>
+        <div class="row w-100 ms-3">
+          <div class="d-flex justify-content-between mb-3">
+            <h5>{{ cart.product?.title }}</h5>
+            <button
+              title="delete"
+              type="button"
+              (click)="removeCartItem(cart.id)"
+              class="btn-close bg-secondary"
+            >
+              <span class="visually-hidden">delete</span>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div>Price: {{ cart.product?.price | currency }}</div>
+            <div class="d-flex align-items-center gap-2">
+              <label for="quantity-{{ $index }}" class="me-2">Quantity</label>
+              <div class="input-group">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  (click)="decreaseQuantity(cart)"
+                  [disabled]="cart.quantity <= 1"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  name="quantity-{{ $index }}"
+                  id="quantity-{{ $index }}"
+                  [value]="cart.quantity"
+                  min="1"
+                  class="form-control text-center"
+                  readonly
+                />
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  (click)="increaseQuantity(cart)"
+                  [disabled]="cart.quantity >= (cart.product?.stock || 100)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    <div class="col-12 col-lg-4">
+      <div class="h-auto border border-2 border-dark p-3">
+        <h5>Order Summary</h5>
+        <div class="my-3">Total: {{ total | currency }}</div>
+        <button
+          type="button"
+          (click)="createOrder()"
+          class="btn btn-outline-dark"
+        >
+          Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+  } @else {
+  <div class="text-center m-5 p-5">No Items found</div>
+  }
+</div>

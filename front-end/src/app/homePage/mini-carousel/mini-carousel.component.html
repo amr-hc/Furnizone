@@ -1,0 +1,8 @@
+<div class="mt-5 carousel-overlay w-100">
+    <p-carousel [value]="images" [numVisible]="4" [numScroll]="1" [circular]="true" [autoplayInterval]="4000"
+        [showNavigators]="false" [showIndicators]="false">
+        <ng-template let-image pTemplate="item">
+            <img [src]="image.src" class="carousel-image img-fluid mx-auto d-block" />
+        </ng-template>
+    </p-carousel>
+</div>

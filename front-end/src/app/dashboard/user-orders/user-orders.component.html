@@ -1,0 +1,53 @@
+<div class="container-fluid container-lg my-5 mx-auto">
+
+	@for(order of orders; track order.id;let i=$index){
+	<div class="p-3 order_detailes bg-white bg-opacity-50 my-2">
+	  <div class="table-responsive">
+		<table class="table align-middle">
+		  <thead>
+			<tr>
+			  <th>Order Date</th>
+			  <th>ID</th>
+			  <th>User Name</th>
+			  <th>Status</th>
+			  <th>Action</th>
+
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <td class="text-dark">{{ order.created_at | date:'yyyy/MM/dd' }}</td>
+			  <td class="text-dark">{{order.id }}</td>
+			  <td class="text-dark">{{order.user_full_name }}</td>
+			  <td class="text-dark">{{order.status}}</td>
+			  <td>
+				<!-- <button type="button" [disabled]="order.status != 'progress'" (click)="cancel(order.id,i)" class="btn btn-danger">Cancel</button> -->
+                <select  class="form-select bg-white bg-opacity-50" aria-label="Default select example"
+                [(ngModel)]="order.status" [disabled]="order.status != 'progress'" (change)="editStatus($event,order.id)">
+                    <option value="done">Done</option>
+                    <option value="cancel">Cancel</option>
+                </select>
+            </td>
+			</tr>
+		  </tbody>
+		</table>
+
+	  </div>
+	  
+	  <div class="row flex-nowrap items_wrapper justify-content-center justify-content-lg-start ">
+	@for(product of order.products; track product.id;let i=$index){
+		<div class="orders_card card bg-white bg-opacity-50 m-2 shadow-sm">
+		  <div class="badge  bg-secondary ">{{ product.price }} EGP</div>
+		  <img [src]="product.image" class="card-img-top card-img-orderd" >
+		  <div class="card-body p-0">
+			<div class="badge text-light mb-2 pname bg-primary">{{ product.title }}</div>
+			<div class="badge text-dark mb-2 w-100 pqty">Qty {{ product.quantity }}</div>
+		  </div>
+		</div>
+	}
+	  </div>
+	  <div class="lead text-end my-0">Total: {{order.total_price}} EGP </div>
+
+	</div>
+}
+  </div>

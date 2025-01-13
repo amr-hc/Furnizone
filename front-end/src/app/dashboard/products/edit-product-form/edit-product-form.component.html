@@ -1,0 +1,82 @@
+<div class="container" *ngIf="product">
+  <h2>Edit Product</h2>
+  <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+    <div class="form-group mb-3">
+      <label for="title">Title</label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        [ngModel]="product.title"
+        (ngModelChange)="product.title = $event"
+        name="title"
+        required
+      />
+      <div *ngIf="validationErrors?.title" class="invalid-feedback">
+        {{ validationErrors.title[0] }}
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="description">Description</label>
+      <textarea
+        class="form-control"
+        id="description"
+        [ngModel]="product.description"
+        (ngModelChange)="product.description = $event"
+        name="description"
+        required
+      ></textarea>
+      <div *ngIf="validationErrors?.description" class="invalid-feedback">
+        {{ validationErrors.description[0] }}
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="price">Price</label>
+      <input
+        type="number"
+        class="form-control"
+        id="price"
+        [ngModel]="product.price"
+        (ngModelChange)="product.price = $event"
+        name="price"
+        required
+      />
+      <div *ngIf="validationErrors?.price" class="invalid-feedback">
+        {{ validationErrors.price[0] }}
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="stock">Stock</label>
+      <input
+        type="number"
+        class="form-control"
+        id="stock"
+        [ngModel]="product.stock"
+        (ngModelChange)="product.stock = $event"
+        name="stock"
+        required
+      />
+      <div *ngIf="validationErrors?.stock" class="invalid-feedback">
+        {{ validationErrors.stock[0] }}
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="image">Image</label>
+      <input
+        type="file"
+        class="form-control-file"
+        id="image"
+        (change)="onFileChange($event)"
+        accept="image/*"
+      />
+      <div *ngIf="validationErrors?.image" class="invalid-feedback">
+        {{ validationErrors.image[0] }}
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="button" class="btn btn-danger mx-2" (click)="goBack()">
+      Cancel
+    </button>
+  </form>
+  <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+</div>

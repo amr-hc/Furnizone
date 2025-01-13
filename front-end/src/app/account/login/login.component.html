@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-center">
+    <section class="container shadow p-5 my-4 row align-items-center">
+        <div class="col-12 col-lg-5">
+            <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="form">
+                <p class="title">Login</p>
+                <div class="form-group">
+                    <label>
+                        <input type="email" class="input" formControlName="email" required>
+                        <span>Email</span>
+                    </label>
+                    <small class="text-danger d-block"
+                        *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)">
+                        <span *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format</span>
+                        <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="password" class="input" formControlName="password" required>
+                        <span>Password</span>
+                    </label>
+                    <small class="text-danger d-block"
+                        *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)">
+                        <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
+                        <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6
+                            characters</span>
+                    </small>
+                </div>
+
+                <!-- Display error message -->
+                <div *ngIf="loginError" class="alert alert-danger">{{ loginError }}</div>
+                <button type="submit" class="submit" [disabled]="loginForm.invalid">Login</button>
+                <p class="signin">Don't have an acount ? <a routerLink="/account/registration">Signup</a></p>
+            </form>
+
+        </div>
+        <img src="../../../assets/images/registration/sofa-7354949_1280.png" class="col d-none d-lg-block" alt="" />
+    </section>
+</div>

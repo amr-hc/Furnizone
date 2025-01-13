@@ -1,0 +1,39 @@
+<ng-container *loading="isLoading">
+  <app-spinner></app-spinner>
+</ng-container>
+
+<div class="container-fluid my-5" *ngIf="!isLoading">
+  <div *ngIf="product" class="row">
+    <div class="col-md-6 image-content my-5">
+      <div class="image-container">
+        <img
+          [src]="product.image_url"
+          class="img-fluid"
+          alt="{{ product.title }}"
+        />
+      </div>
+    </div>
+    <div class="col-md-6 text-content my-5">
+      <div class="text-container p-2">
+        <h1 class="display-4 gray-text text-center">{{ product.title }}</h1>
+        <p class="my-5">
+          <strong>Description:</strong> {{ product.description }}
+        </p>
+        <p>
+          <strong>Price:</strong>
+          <span class="price">{{ product.price | currency }}</span>
+        </p>
+        @if(authService.role != 'admin'){
+        <button
+          class="btn btn-outline-dark my-5"
+          (click)="addToCart(product.id)"
+        >
+          Add To Cart
+        </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <app-no-result *ngIf="!product"></app-no-result>
+</div>

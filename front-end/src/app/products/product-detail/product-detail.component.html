@@ -1,0 +1,19 @@
+<div class="container mx-auto my-5 row card-details row-gap-3">
+  <div class="col-12 col-lg-6">
+    <img
+      [src]="product.image_url || defaultImageUrl"
+      alt="Product Image"
+      (error)="setDefaultImage($event)"
+    />
+  </div>
+  <div class="col-12 col-lg-6 my-auto">
+    <h4>{{ product.title }}</h4>
+    <p class="text-muted">{{ product.description }}</p>
+    <p class="fw-bold">Price: ${{ product.price }}</p>
+    @if(authService.role != 'admin'){
+    <button class="btn btn-outline-dark" (click)="addToCart()">
+      Add To Cart
+    </button>
+    }
+  </div>
+</div>

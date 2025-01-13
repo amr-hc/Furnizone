@@ -1,0 +1,47 @@
+<div class="container py-4" style="background-color: #f8f9fa;">
+  <h2 class="mb-4 text-center">Add New Admin</h2>
+  <form (ngSubmit)="submitAddAdminForm()" class="needs-validation" novalidate>
+    <div class="form-group row mb-4">
+      <label for="name" class="col-sm-2 col-form-label">Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="name" [(ngModel)]="newAdmin.name" name="name" required>
+        <div *ngIf="validationErrors.name" class="invalid-feedback">
+          {{ validationErrors.name[0] }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group row mb-4">
+      <label for="email" class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="email" [(ngModel)]="newAdmin.email" name="email" required>
+        <div *ngIf="validationErrors.email" class="invalid-feedback">
+          {{ validationErrors.email[0] }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group row mb-4">
+      <label for="password" class="col-sm-2 col-form-label">Password</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" id="password" [(ngModel)]="newAdmin.password" name="password" required>
+        <div *ngIf="validationErrors.password" class="invalid-feedback">
+          {{ validationErrors.password[0] }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group row mb-4">
+      <label for="image" class="col-sm-2 col-form-label">Image</label>
+      <div class="col-sm-10">
+        <input type="file" class="form-control-file" id="image" (change)="onFileChange($event)" accept="image/*" required>
+        <div *ngIf="validationErrors.image" class="invalid-feedback">
+          {{ validationErrors.image[0] }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-10 offset-sm-2">
+        <button type="submit" class="btn btn-primary ms-3">Submit</button>
+        <button type="button" class="btn btn-danger ms-3" (click)="cancelAddAdmin()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

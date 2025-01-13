@@ -1,0 +1,30 @@
+<div class="container text-center">
+  <div class="d-flex align-items-center justify-content-center my-3">
+    <h2 class="my-2 mx-4">Users</h2>
+  </div>
+
+  <table class="table">
+    <thead class="custom-header">
+      <tr>
+        <th>Image</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Gender</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td><img [src]="user.image_url" alt="{{ user.full_name }}" width="50" height="50"></td>
+        <td>{{ user.full_name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.gender }}</td>
+        <td>
+          <button class="btn btn-danger btn ms-1" (click)="deleteUser(user.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

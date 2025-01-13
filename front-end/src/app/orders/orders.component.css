@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  background-color: #f5f5f5;
+  
+}
+
+.items_wrapper {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+
+
+.myorder_card-item {
+  position: relative;
+  background-color: white;
+  border-radius: 2px;
+  height: 6rem;
+  width: 8rem;
+  .item_title {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+  }
+  .item-footer {
+    position: absolute;
+    bottom: 0.25rem;
+    padding: 0 0.5rem;
+    p {
+      margin: 0;
+    }
+  }
+  img {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 3rem;
+  }
+}
+
+.myorder_card {
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  border: 2px solid #9e9fa14d;
+  .status {
+    position: absolute;
+    border: none;
+    top: 0.25rem;
+    left: 0.25rem;
+  }
+  i {
+    width: 1rem;
+    height: 1rem;
+  }
+  .cancel_order {
+    position: absolute;
+    right: 0.25rem;
+    top: 0.25rem;
+    padding: 0.1rem 0.5rem;
+  }
+  .edit_order {
+    position: absolute;
+    right: 0.25rem;
+    top: 2.5rem;
+    padding: 0.1rem 0.5rem;
+  }
+  .available_order {
+    position: absolute;
+    right: 0.25rem;
+    top: 4.75rem;
+    padding: 0.1rem 0.5rem;
+  }
+  img {
+    margin-top: 0.75rem;
+    width: 3rem;
+    object-fit: contain;
+  }
+  .card-body {
+    position: absolute;
+    bottom: 0;
+  }
+}
+.myorder_card:hover {
+  border-color: #fe6c49;
+  cursor: pointer;
+}
+
+.user {
+  width: 12rem;
+  height: 15rem;
+  color: #9e9fa1;
+  background-color: #fff;
+  border-radius: 15px;
+  border: 2px solid #9e9fa14d;
+  cursor: pointer;
+  text-align: center;
+  padding: 0;
+  overflow: hidden;
+  img {
+    height: 8rem;
+    object-fit: contain;
+
+    margin: 0 auto;
+  }
+}
+.user:hover,
+.order_detailes:hover {
+  border-color: #fe6c49;
+}
+.order_detailes {
+  border: 2px solid #9e9fa14d;
+  border-radius: 15px;
+}
+.ms-50 {
+  margin-left: 50%;
+}
+.usersChecks {
+  padding: 1rem;
+  border: 2px solid #9e9fa14d;
+  border-radius: 0.5rem;
+}
+
+.orders_card {
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+
+  .badge {
+    position: absolute;
+    padding: 3px;
+    right: 0.1rem;
+    top: 0.1rem;
+  }
+
+  .card-img-orderd {
+    position: absolute;
+    height: 4rem;
+    object-fit: contain;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+  }
+
+  .pname {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .pqty {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.btn-danger{
+  padding: 2px;
+}

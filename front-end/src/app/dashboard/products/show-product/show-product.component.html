@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row justify-content-center text-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">Product Details</div>
+        <div class="card-body">
+          <div *ngIf="product">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+
+            <p class="card-text">Price: {{ product.price }}</p>
+            <p class="card-text">Stock: {{ product.stock }}</p>
+            <img
+            class="card-img-top"
+            [src]="product.image_url"
+            alt="{{ product.title }}"
+            style="width: 200px; height: 200px"
+          />
+            <br />
+            <button
+              class="btn btn-secondary mt-3"
+              (click)="router.navigate(['/adminDashboard/products'])"
+            >
+              Back
+            </button>
+          </div>
+          <div *ngIf="!product">
+            <p>No product details available</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

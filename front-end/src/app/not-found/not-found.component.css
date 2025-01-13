@@ -1,0 +1,25 @@
+.main {
+  margin-top: 6rem;
+  position:relative;
+  z-index: 1; 
+  padding: 2rem; 
+  background-color: white; 
+}
+img {
+  width: 20%;
+  height: 20%;
+}
+.ops{
+  font-size: 5rem;
+}
+.main::after{
+  content: "404";
+  position: absolute;
+  font-size: 250px;
+  font-family: sans-serif  ;
+  opacity: 0.1;
+  left: 32%;
+  top: -43%;
+  z-index: -1;
+}
+

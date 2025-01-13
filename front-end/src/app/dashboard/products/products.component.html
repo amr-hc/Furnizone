@@ -1,0 +1,42 @@
+<div class="container text-center">
+  <div class="d-flex align-items-center justify-content-center my-3">
+    <h2 class="my-2 mx-4">Products</h2>
+    <a routerLink="add-product" class="btn btn-primary mx-4">Add product</a>
+  </div>
+  <div class="container text-center">
+    <table class="table">
+      <thead class="custom-header">
+        <tr>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.title }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.stock }}</td>
+          <td>
+            <img
+              [src]="product.image_url"
+              alt="{{ product.title }}"
+              width="50"
+              height="50"
+            />
+          </td>
+          <td>
+            <!-- <button (click)="editProduct(product)">Edit</button> -->
+            <button class="btn btn-primary mx-1" [routerLink]="['/adminDashboard/products', product.id]">Show</button>
+            <button class="btn btn-info mx-1" [routerLink]="['/adminDashboard/products/edit-product', product.id]">Edit</button>
+            <button class="btn btn-danger mx-1" (click)="deleteProduct(product.id)">Delete</button>
+
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

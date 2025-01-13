@@ -1,0 +1,60 @@
+
+.form-control:focus {
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  border-color: #8a95a5;
+  outline: 0;
+  box-shadow: 0 0 0 .1rem rgb(37 40 45 / 25%);
+}
+.showModal {
+  position:absolute;
+  right: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  background: #333333;
+  color: white;
+  fill: rgb(155, 153, 153);
+  padding: 0.5em 0.6em;
+  padding-left: 0.9em;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  font-weight: 1000;
+}
+
+.showModal span {
+  display: block;
+  margin-left: 0.3em;
+  transition: all 0.3s ease-in-out;
+}
+
+.showModal .edit {
+  display: block;
+  transform-origin: center center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.showModal:hover {
+  background: #000;
+}
+
+.showModal:hover .svg-wrapper {
+  transform: scale(1.25);
+  transition: 0.5s linear;
+}
+
+.showModal:hover .edit {
+  transform: translateX(1.2em) scale(1.1);
+  fill: #fff;
+}
+
+.showModal:hover span {
+  opacity: 0;
+  transition: 0.5s linear;
+}
+
+.showModal:active {
+  transform: scale(0.95);
+}
