@@ -1,0 +1,11 @@
+-- V5__Create_carts_table.sql
+CREATE TABLE carts (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NULL,
+    product_id BIGINT NULL,
+    quantity INT DEFAULT 1 NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_cart_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_cart_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
