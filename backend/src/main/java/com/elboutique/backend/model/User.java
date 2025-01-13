@@ -3,6 +3,7 @@ package com.elboutique.backend.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -19,9 +20,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import com.elboutique.backend.model.base.BaseUser;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -29,14 +28,14 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "users")
 public class User extends BaseUser {
 
     @Column(nullable = false, length = 100)
     private String fullName;
 
-    private String phones;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String gender;
 
 

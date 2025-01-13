@@ -9,6 +9,7 @@ import com.elboutique.backend.DTO.request.RegisterRequest;
 import com.elboutique.backend.DTO.response.AuthenticationResponse;
 import com.elboutique.backend.service.AuthenticationService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -24,13 +25,13 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) 
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request) 
     { 
         return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) 
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest request) 
     { 
         return ResponseEntity.ok(service.login(request));
     } 

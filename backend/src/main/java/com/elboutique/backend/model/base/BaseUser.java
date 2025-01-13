@@ -27,6 +27,7 @@ public abstract class BaseUser extends BaseEntity implements UserDetails {
 
     private String password;
 
+    @Column(nullable = true)
     private String image;
 
     @Override
