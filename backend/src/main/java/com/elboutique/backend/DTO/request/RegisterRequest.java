@@ -12,10 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
-    private String firstname;
-    private String lastname;
+    private String fullName;
     private String email;
     private String password;
-    private String phoneNumber;
-    private List<AddressRequest> addresses;
+    public enum Gender {
+        MALE,
+        FEMALE
+    }
 }

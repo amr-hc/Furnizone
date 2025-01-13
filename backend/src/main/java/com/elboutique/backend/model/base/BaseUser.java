@@ -22,10 +22,6 @@ import java.util.List;
 @MappedSuperclass
 public abstract class BaseUser extends BaseEntity implements UserDetails {
 
-    private String firstname;
-
-    private String lastname;
-
     @Column(unique = true, nullable = false)
     private String email;
 

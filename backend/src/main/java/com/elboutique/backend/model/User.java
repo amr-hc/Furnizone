@@ -29,16 +29,16 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Customer extends BaseUser {
+public class User extends BaseUser {
 
-    private boolean active;
-    private boolean banned;
+    @Column(nullable = false, length = 100)
+    private String fullName;
 
-    @OneToMany(mappedBy = "customer")
-    private Set<Phone> phones;
+    private String phones;
 
-    @OneToMany(mappedBy = "customer")
-    private Set<CustomerAddress> addresses;
+    @Column(nullable = false)
+    private String gender;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
