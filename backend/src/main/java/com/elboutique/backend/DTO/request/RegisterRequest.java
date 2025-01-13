@@ -1,9 +1,9 @@
 package com.elboutique.backend.DTO.request;
 
+import com.elboutique.backend.validation.ValidEnum;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -34,8 +34,9 @@ public class RegisterRequest {
     )
     private String password;
 
-    @NotNull(message = "Gender is required.")
-    private Gender gender;
+    @NotBlank(message="Gender is required")
+    @ValidEnum(enumClass = Gender.class, message = "Gender must be either 'male' or 'female'.")
+    private String gender;
 
     public enum Gender {
         male,
