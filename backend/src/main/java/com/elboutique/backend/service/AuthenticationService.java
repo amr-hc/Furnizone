@@ -4,10 +4,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +18,9 @@ import com.elboutique.backend.DTO.request.LoginRequest;
 import com.elboutique.backend.DTO.request.RegisterRequest;
 import com.elboutique.backend.DTO.response.AuthenticationResponse;
 import com.elboutique.backend.config.JwtService;
+import com.elboutique.backend.model.Admin;
 import com.elboutique.backend.model.User;
+import com.elboutique.backend.repository.AdminRepository;
 import com.elboutique.backend.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
+    private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -59,23 +65,45 @@ public class AuthenticationService {
         .build();
         userRepository.save(user);
 
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(user, "User");
         return AuthenticationResponse
             .builder()
             .token(jwtToken)
+            .role("User")
             .build();
     }
 
     public AuthenticationResponse login(LoginRequest request) {
+        // Authenticate user or admin
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken( request.getEmail(), request.getPassword())
+            new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse
-            .builder()
-            .token(jwtToken)
-            .build();
+
+        // Check if the user is in the `users` table
+        Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
+        if (userOptional.isPresent()) {
+            var user = userOptional.get();
+            var jwtToken = jwtService.generateToken(user, "User");
+            return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .role("User")
+                .build();
+        }
+
+        // If not found, check the `admins` table
+        Optional<Admin> adminOptional = adminRepository.findByEmail(request.getEmail());
+        if (adminOptional.isPresent()) {
+            var admin = adminOptional.get();
+            var jwtToken = jwtService.generateToken(admin, "Admin");
+            return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .role("Admin")
+                .build();
+        }
+
+        throw new UsernameNotFoundException("Invalid credentials");
+    
+
     }
 
 }

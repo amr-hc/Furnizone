@@ -8,7 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.elboutique.backend.model.User;
+import com.elboutique.backend.model.base.BaseUser;
 
 import java.security.Key;
 import java.util.Date;
@@ -29,9 +29,10 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(User userDetails){
+    public String generateToken(BaseUser userDetails, String role){
         HashMap<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("id", userDetails.getId());
+        extraClaims.put("role", role);
         return generateToken(extraClaims, userDetails);
     }
 
