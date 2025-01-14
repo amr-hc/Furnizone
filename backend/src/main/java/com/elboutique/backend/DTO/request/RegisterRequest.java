@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.elboutique.backend.model.User;
 import com.elboutique.backend.validation.Unique;
 import com.elboutique.backend.validation.ValidEnum;
+import com.elboutique.backend.validation.ValidImage;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -48,6 +49,7 @@ public class RegisterRequest {
         female
     }
 
+    @ValidImage(message = "Please upload a valid image file.")
     private MultipartFile image;
 
 
