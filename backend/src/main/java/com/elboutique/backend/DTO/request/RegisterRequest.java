@@ -1,5 +1,7 @@
 package com.elboutique.backend.DTO.request;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.elboutique.backend.model.User;
 import com.elboutique.backend.validation.Unique;
 import com.elboutique.backend.validation.ValidEnum;
@@ -45,5 +47,8 @@ public class RegisterRequest {
         male,
         female
     }
+
+    private MultipartFile image;
+
 
 }
