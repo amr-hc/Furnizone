@@ -1,5 +1,7 @@
 package com.elboutique.backend.DTO.request;
 
+import com.elboutique.backend.model.User;
+import com.elboutique.backend.validation.Unique;
 import com.elboutique.backend.validation.ValidEnum;
 
 import jakarta.validation.constraints.Email;
@@ -24,6 +26,7 @@ public class RegisterRequest {
 
     @NotBlank(message = "Email is required.")
     @Email(message = "Please provide a valid email address.")
+    @Unique(entity = User.class, fieldName = "email", message = "Email must be unique.")
     private String email;
 
     @NotBlank(message = "Password is required.")
