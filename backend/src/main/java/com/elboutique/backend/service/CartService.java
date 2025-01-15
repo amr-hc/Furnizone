@@ -1,5 +1,7 @@
 package com.elboutique.backend.service;
 
+import com.elboutique.backend.DTO.response.CartResponse;
+import com.elboutique.backend.DTO.response.ProductResponse;
 import com.elboutique.backend.model.Cart;
 import com.elboutique.backend.model.Product;
 import com.elboutique.backend.model.User;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +26,23 @@ public class CartService {
     /**
      * Find all cart items by user ID.
      */
-    public List<Cart> findByUserId(Integer userId) {
-        return cartRepository.findByUserId(userId);
+    public List<CartResponse> findByUserId(Integer userId) {
+        var cartItems = cartRepository.findByUserId(userId);
+        List<CartResponse> response = cartItems.stream()
+            .<CartResponse>map(cart -> CartResponse.builder()
+                .id(cart.getId())
+                .product(ProductResponse.builder()
+                    .id(cart.getProduct().getId())
+                    .title(cart.getProduct().getTitle())
+                    .description(cart.getProduct().getDescription())
+                    .price(cart.getProduct().getPrice())
+                    .image(cart.getProduct().getImage())
+                    .build())
+                .quantity(cart.getQuantity())
+                .build())
+            .collect(Collectors.toList());
+
+        return response;
     }
 
     /**

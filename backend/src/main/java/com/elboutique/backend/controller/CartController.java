@@ -1,10 +1,9 @@
 package com.elboutique.backend.controller;
 
 import com.elboutique.backend.DTO.request.CartRequest;
+import com.elboutique.backend.DTO.response.CartResponse;
 import com.elboutique.backend.model.Cart;
 import com.elboutique.backend.service.CartService;
-import com.elboutique.backend.service.ProductService;
-import com.elboutique.backend.service.UserService;
 
 import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
@@ -22,20 +21,16 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
-    private final ProductService productService;
-    private final UserService userService;
 
     /**
      * Get all cart items for the authenticated user.
      */
     @GetMapping
-    public ResponseEntity<List<Cart>> getUserCartItems() {
-
+    public ResponseEntity<List<CartResponse>> getUserCartItems() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Claims claims = (Claims) authentication.getPrincipal();
-        Integer userId = Integer.valueOf(claims.get("id").toString());
-
-        List<Cart> userCartItems = cartService.findByUserId(userId);
+        Claims claims = (Claims) authentication.getCredentials();
+        Integer userId = claims.get("id", Integer.class);
+        List<CartResponse> userCartItems = cartService.findByUserId(userId);
         return ResponseEntity.ok(userCartItems);
     }
 
