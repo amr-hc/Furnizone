@@ -13,8 +13,6 @@ import java.util.UUID;
 @Service
 public class FileStorageService {
 
-    private final String uploadDir = "uploads/images";
-
     public String saveFile(MultipartFile file, String folder) {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("File must not be null or empty");
@@ -26,7 +24,7 @@ public class FileStorageService {
         try {
             // Generate unique file name
             String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            String fullPath = uploadDir + "/" + folder;
+            String fullPath = "src/main/resources/static/uploads/images/" + folder;
             // Create upload directory if it doesn't exist
             Path uploadPath = Paths.get(fullPath);
             if (!Files.exists(uploadPath)) {
@@ -38,7 +36,7 @@ public class FileStorageService {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             // Return the relative file path
-            return fullPath + "/" + fileName;
+            return "/uploads/images/" + folder + "/" + fileName;
         } catch (IOException e) {
             throw new RuntimeException("Failed to save file", e);
         }
