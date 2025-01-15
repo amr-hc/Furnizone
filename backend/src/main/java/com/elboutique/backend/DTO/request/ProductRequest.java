@@ -17,7 +17,6 @@ public class ProductRequest {
 
     @NotNull(message = "Price is required.")
     @DecimalMin(value = "0.01", message = "Price must be at least 0.01.")
-    @DecimalMax(value = "10000.00", message = "Price must not exceed 10000.00.")
     private BigDecimal price;
 
     @NotNull(message = "Stock is required.")
