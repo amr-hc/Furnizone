@@ -29,32 +29,32 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-            return username -> {
-        // First, check the `users` table
-        Optional<User> userOptional = userRepository.findByEmail(username);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_USER"))
-            );
-        }
+        return username -> {
+            // First, check the `users` table
+            Optional<User> userOptional = userRepository.findByEmail(username);
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                return new org.springframework.security.core.userdetails.User(
+                    user.getEmail(),
+                    user.getPassword(),
+                    List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                );
+            }
 
-        // If not found, check the `admins` table
-        Optional<Admin> adminOptional = adminRepository.findByEmail(username);
-        if (adminOptional.isPresent()) {
-            Admin admin = adminOptional.get();
-            return new org.springframework.security.core.userdetails.User(
-                admin.getEmail(),
-                admin.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))
-            );
-        }
+            // If not found, check the `admins` table
+            Optional<Admin> adminOptional = adminRepository.findByEmail(username);
+            if (adminOptional.isPresent()) {
+                Admin admin = adminOptional.get();
+                return new org.springframework.security.core.userdetails.User(
+                    admin.getEmail(),
+                    admin.getPassword(),
+                    List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                );
+            }
 
-        // If not found in either table, throw an exception
-        throw new UsernameNotFoundException("User not found");
-    };
+            // If not found in either table, throw an exception
+            throw new UsernameNotFoundException("User not found");
+        };
 
     }
 
