@@ -25,11 +25,11 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "orders_products")
 public class OrderProduct extends BaseEntity{
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 

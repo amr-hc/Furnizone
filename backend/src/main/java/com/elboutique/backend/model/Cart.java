@@ -22,7 +22,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "carts")
 public class Cart extends BaseEntity{
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
