@@ -9,7 +9,8 @@ import com.elboutique.backend.model.User;
 import com.elboutique.backend.repository.CartRepository;
 import com.elboutique.backend.repository.OrderRepository;
 import com.elboutique.backend.repository.ProductRepository;
-import com.elboutique.backend.repository.UserRepository;
+
+import io.jsonwebtoken.Claims;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -24,7 +25,6 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
     private final CartRepository cartRepository;
 
     public List<OrderResponse> getAllOrders() {
@@ -34,23 +34,22 @@ public class OrderService {
     }
 
     public List<OrderResponse> getUserOrders(Authentication authentication) {
-        User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return orderRepository.findByUserAndStatusNot(user, Order.Status.CANCEL.toString()).stream()
-                .map(OrderResponse::fromEntity)
-                .collect(Collectors.toList());
+        Claims claims = (Claims) authentication.getCredentials();
+        Integer userId = claims.get("id", Integer.class);
+        return orderRepository.findByUserIdAndStatusNot(userId, Order.Status.cancel).stream()
+            .map(OrderResponse::fromEntity)
+            .collect(Collectors.toList());
     }
 
     @Transactional
     public Order createOrder(Integer userId) {
-
         List<Cart> carts  = cartRepository.findByUserId(userId);
         if (carts.isEmpty()) {
             throw new IllegalArgumentException("Cart is empty");
         }
         Order order = new Order();
         order.setUser(User.builder().id(userId).build());
-        order.setStatus(Order.Status.PROGRESS);
+        order.setStatus(Order.Status.progress);
 
         List<OrderProduct> orderProducts = carts.stream()
             .map(productInCart -> {
@@ -61,11 +60,11 @@ public class OrderService {
                 product.setStock(product.getStock() - productInCart.getQuantity());
                 productRepository.save(product);
                 return OrderProduct.builder()
-                        .order(order)
-                        .product(product)
-                        .quantity(productInCart.getQuantity())
-                        .price(product.getPrice())
-                        .build();
+                    .order(order)
+                    .product(product)
+                    .quantity(productInCart.getQuantity())
+                    .price(product.getPrice())
+                    .build();
             }).collect(Collectors.toList());
 
         cartRepository.deleteByUserId(userId);
@@ -76,33 +75,33 @@ public class OrderService {
 
     public OrderResponse getOrderById(Integer id, Authentication authentication) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+            .orElseThrow(() -> new IllegalArgumentException("Order not found"));
         return OrderResponse.fromEntity(order);
     }
 
     public Order updateOrder(Integer id, Order updatedOrder) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+            .orElseThrow(() -> new IllegalArgumentException("Order not found"));
         order.setStatus(updatedOrder.getStatus());
         return orderRepository.save(order);
     }
 
     public void deleteOrder(Integer id) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+            .orElseThrow(() -> new IllegalArgumentException("Order not found"));
         orderRepository.delete(order);
     }
 
     @Transactional
     public Order cancelOrder(Integer id, Authentication authentication) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+            .orElseThrow(() -> new IllegalArgumentException("Order not found"));
 
-        if (!"progress".equals(order.getStatus())) {
+        if (!Order.Status.progress.equals(order.getStatus())) {
             throw new IllegalArgumentException("Cannot cancel order in current state");
         }
 
-        order.setStatus(Order.Status.CANCEL);
+        order.setStatus(Order.Status.cancel);
         orderRepository.save(order);
 
         for (OrderProduct orderProduct : order.getOrderProducts()) {
@@ -114,15 +113,13 @@ public class OrderService {
         return order;
     }
 
-    public Order markOrderAsDone(Integer id, Authentication authentication) {
+    public Order markOrderAsDone(Integer id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found"));
-
-        if (!"progress".equals(order.getStatus())) {
+        if (!Order.Status.progress.equals(order.getStatus())) {
             throw new IllegalArgumentException("Order cannot be marked as done");
         }
-
-        order.setStatus(Order.Status.DONE);
+        order.setStatus(Order.Status.done);
         return orderRepository.save(order);
     }
 }

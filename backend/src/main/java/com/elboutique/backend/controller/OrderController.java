@@ -7,11 +7,14 @@ import com.elboutique.backend.service.OrderService;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -44,24 +47,30 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderById(id, authentication));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Integer id, @RequestBody Order order) {
-        return ResponseEntity.ok(orderService.updateOrder(id, order));
+    public ResponseEntity<OrderResponse> updateOrder(@PathVariable Integer id, @RequestBody Order order) {
+        return ResponseEntity.ok(OrderResponse.fromEntity(orderService.updateOrder(id, order)));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteOrder(@PathVariable Integer id) {
+    public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable Integer id, Authentication authentication) {
         orderService.deleteOrder(id);
-        return ResponseEntity.ok("Order deleted successfully");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Order deleted successfully");
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}/cancel")
-    public ResponseEntity<Order> cancelOrder(@PathVariable Integer id, Authentication authentication) {
-        return ResponseEntity.ok(orderService.cancelOrder(id, authentication));
+    public ResponseEntity<OrderResponse> cancelOrder(@PathVariable Integer id, Authentication authentication) {
+        Order order = orderService.cancelOrder(id, authentication);
+        return ResponseEntity.ok(OrderResponse.fromEntity(order));
     }
 
     @PutMapping("/{id}/done")
-    public ResponseEntity<Order> markOrderAsDone(@PathVariable Integer id, Authentication authentication) {
-        return ResponseEntity.ok(orderService.markOrderAsDone(id, authentication));
+    public ResponseEntity<OrderResponse> markOrderAsDone(@PathVariable Integer id) {
+        Order order = orderService.markOrderAsDone(id);
+        return ResponseEntity.ok(OrderResponse.fromEntity(order));
     }
 }

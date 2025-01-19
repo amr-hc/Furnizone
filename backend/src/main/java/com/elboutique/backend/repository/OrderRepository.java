@@ -9,6 +9,7 @@ import com.elboutique.backend.model.User;
 
 public interface OrderRepository extends JpaRepository<Order, Integer>{
 
-    Collection<Order> findByUserAndStatusNot(User user, String string);
+    Collection<Order> findByUserAndStatusNot(User user, Order.Status status);
+    Collection<Order> findByUserIdAndStatusNot(Integer user, Order.Status status);
 
 }

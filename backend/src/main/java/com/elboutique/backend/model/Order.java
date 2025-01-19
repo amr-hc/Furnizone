@@ -37,9 +37,9 @@ public class Order extends BaseEntity{
     private Status status;
 
     public enum Status {
-        PROGRESS,
-        CANCEL,
-        DONE
+        progress,
+        cancel,
+        done
     }
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

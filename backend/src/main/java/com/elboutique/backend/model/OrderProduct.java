@@ -29,7 +29,7 @@ public class OrderProduct extends BaseEntity{
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
