@@ -48,7 +48,7 @@ export class CartService {
     const options = {
       body: { user_id: 1 },
     };
-    return this.http.delete(`${this.path}${id}`, options);
+    return this.http.delete(`${this.path}/${id}`, options);
   }
 
   pushIteminCart() {

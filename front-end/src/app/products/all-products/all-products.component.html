@@ -6,13 +6,19 @@
   </ng-container>
 
   <ng-template #productsContent>
-    <ng-container *ngIf="pagedProducts.length > 0">
+
+
+    <ng-container>
       <div class="row my-5">
         <h1 class="col-12 display-3 text-light text-center">
           Explore our collection carefully
         </h1>
       </div>
 
+      <ng-container *ngIf="pagedProducts.length === 0">
+        <div class="alert alert-warning text-center">No products found.</div>
+      </ng-container>
+      
       <div class="row my-5">
         <div
           class="col-lg-3 col-md-6 mb-4"
@@ -76,10 +82,6 @@
           </div>
         </div>
       </div>
-    </ng-container>
-
-    <ng-container *ngIf="pagedProducts.length === 0">
-      <div class="alert alert-warning text-center">No products found.</div>
     </ng-container>
   </ng-template>
 </div>

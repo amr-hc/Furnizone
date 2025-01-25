@@ -13,6 +13,8 @@ import com.elboutique.backend.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Product>> searchProducts(@RequestParam("title") String title) {
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String title) {
         List<Product> products = productService.searchProductsByTitle(title);
         return ResponseEntity.ok(products);
     }
@@ -37,8 +39,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+    public ResponseEntity<Page<Product>> getAllProducts(int page, int size) {
+        return ResponseEntity.ok(productService.getAllProducts(page, size));
     }
 
     @PutMapping("/{id}")

@@ -4,6 +4,7 @@ import { Product } from '../../models/product';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Page } from '../../models/page';
 
 @Component({
   selector: 'app-product',
@@ -14,6 +15,10 @@ import Swal from 'sweetalert2';
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
+  totalElements = 0;
+  currentPage = 0;
+  pageSize = 10;
+
 
   constructor(private productService: ProductService) {}
 
@@ -22,15 +27,23 @@ export class ProductsComponent implements OnInit {
   }
 
   loadProducts(): void {
-    this.productService.getProducts().subscribe(
-      (data: Product[]) => {
-        this.products = data;
+    this.productService.getProducts(this.currentPage, this.pageSize).subscribe(
+      (data: Page<Product>) => {
+        this.products = data.content;
+        this.totalElements = data.totalElements;
+
       },
       (error: any) => {
         console.error('Failed to fetch products', error);
       }
     );
   }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadProducts();
+  }
+
 
   deleteProduct(productId: number): void {
     Swal.fire({

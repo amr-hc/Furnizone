@@ -12,6 +12,11 @@ import com.elboutique.backend.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -39,8 +44,9 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(int page, int size) {
+        Pageable pageableAfterCheck = PageRequest.of( page, Math.min(size, 100) );
+        return productRepository.findAll(pageableAfterCheck);
     }
 
     public Product updateProduct(Integer id, Product productDetails) {

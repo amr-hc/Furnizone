@@ -26,11 +26,11 @@ import { AuthService } from '../../services/auth.service';
   ],
 })
 export class AllProductsComponent implements OnInit, OnDestroy {
-  products: Product[] = [];
   pagedProducts: Product[] = [];
   cartItems: Cart[] = [];
-  currentPage = 1;
-  pageSize = 16;
+  currentPage = 0;
+  pageSize = 5;
+  totalProductCount = 0;
   faEye = faEye;
   faCartPlus = faCartPlus;
   isLoading = true;
@@ -44,16 +44,16 @@ export class AllProductsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.loadProducts();
+    this.loadProducts(this.currentPage, this.pageSize);
     this.loadCartItems();
   }
 
-  loadProducts() {
+  loadProducts(page: number, size: number) {
     this.productsSubscription = this.productService
-      .getProducts()
+      .getProducts(page, size)
       .subscribe((products) => {
-        this.products = products;
-        this.setPage(1);
+        this.pagedProducts = products.content;
+        this.totalProductCount = products.totalElements;
         this.isLoading = false;
       });
   }
@@ -61,29 +61,19 @@ export class AllProductsComponent implements OnInit, OnDestroy {
     const cartSub = this.cartService
       .getAllCartItems()
       .subscribe((cartItems) => {
-        this.cartItems = cartItems.data;
+        this.cartItems = cartItems;
       });
     this.cartsubscriptions.push(cartSub);
   }
 
   setPage(page: number) {
-    let startIndex: number;
-    let endIndex: number;
-
-    if (page === 1) {
-      startIndex = 0;
-    } else {
-      startIndex = (page - 1) * this.pageSize;
-    }
-
-    endIndex = Math.min(startIndex + this.pageSize, this.products.length);
-    this.pagedProducts = this.products.slice(startIndex, endIndex);
-    this.currentPage = page;
+    this.loadProducts(page, this.pageSize)
   }
 
   nextPage() {
-    if (this.currentPage * this.pageSize < this.products.length) {
-      this.setPage(this.currentPage + 1);
+    if (this.currentPage * this.pageSize < this.totalProductCount) {
+      ++this.currentPage;
+      this.setPage(this.currentPage);
     }
   }
   addToCart(product_id: number) {
@@ -93,7 +83,7 @@ export class AllProductsComponent implements OnInit, OnDestroy {
       console.log('cart item already exists');
       return;
     }
-    const cartItem = this.createCartItem(product_id, user_id);
+    const cartItem = this.createCartItem(product_id);
     this.addCartItemToBackend(cartItem);
   }
 
@@ -103,10 +93,9 @@ export class AllProductsComponent implements OnInit, OnDestroy {
     );
   }
   
-  createCartItem(product_id: number, user_id: number): Cart {
+  createCartItem(product_id: number): Cart {
     return {
       product_id,
-      user_id,
       quantity: 1,
       product: null,
       id: this.cartItems.length + 1,
@@ -127,8 +116,9 @@ export class AllProductsComponent implements OnInit, OnDestroy {
   }
 
   prevPage() {
-    if (this.currentPage > 1) {
-      this.setPage(this.currentPage - 1);
+    if (this.currentPage > 0) {
+      --this.currentPage;
+      this.setPage(this.currentPage);
     }
   }
 

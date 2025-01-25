@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product';
+import { Page } from '../models/page';
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +12,14 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.baseUrl}/products`);
+  getProducts(page: number, size: number): Observable<Page<Product>> {
+    const params = new HttpParams().set('page', page).set('size', size);
+    return this.http.get<Page<Product>>(`${this.baseUrl}/products`, { params });
   }
 
   getProductByName(title: string): Observable<Product[]> {
     const url = `${this.baseUrl}/products/search?title=${encodeURIComponent(title)}`;
-    return this.http.get<Product[]>(url); // Adjust the type to `Product[]` if the backend returns a list
+    return this.http.get<Product[]>(url);
   
   }
   getProductById(productId: number): Observable<Product> {

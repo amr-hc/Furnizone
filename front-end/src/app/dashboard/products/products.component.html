@@ -28,15 +28,32 @@
             />
           </td>
           <td>
-            <!-- <button (click)="editProduct(product)">Edit</button> -->
             <button class="btn btn-primary mx-1" [routerLink]="['/adminDashboard/products', product.id]">Show</button>
             <button class="btn btn-info mx-1" [routerLink]="['/adminDashboard/products/edit-product', product.id]">Edit</button>
             <button class="btn btn-danger mx-1" (click)="deleteProduct(product.id)">Delete</button>
-
-
           </td>
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-container">
+    <button
+      class="btn btn-secondary"
+      [disabled]="currentPage === 0"
+      (click)="onPageChange(currentPage - 1)"
+    >
+      Previous
+    </button>
+    <button
+      class="btn btn-secondary"
+      [disabled]="(currentPage + 1) * pageSize >= totalElements"
+      (click)="onPageChange(currentPage + 1)"
+    >
+      Next
+    </button>
+    <span>Page {{ currentPage + 1 }} of {{ totalElements | number }}</span>
+
   </div>
 </div>
