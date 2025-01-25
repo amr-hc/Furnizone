@@ -8,7 +8,7 @@ import { Cart } from '../models/cart';
   providedIn: 'root',
 })
 export class CartService {
-  path: string = 'http://127.0.0.1:8000/api/carts/';
+  path: string = 'http://127.0.0.1:8080/api/v1/carts';
   public cartArray: Cart[] = [];
   public cartLength: number = 0;
   cartLengthSubject: Subject<number> = new Subject();
@@ -22,7 +22,7 @@ export class CartService {
   private updateCartLength() {
     const getCartItemLength = this.getAllCartItems().subscribe((data) => {
       this.cartArray = data.data;
-      this.cartLength = this.cartArray.length;
+      // this.cartLength = this.cartArray.length;
       this.cartLengthSubject.next(this.cartLength);
     });
     this.cartsubscriptions.push(getCartItemLength);

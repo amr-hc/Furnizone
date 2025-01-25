@@ -49,8 +49,8 @@ export class ProductsSearchComponent implements OnDestroy {
         this.productSubscription = this.productService
           .getProductByName(title)
           .subscribe({
-            next: (product: Product) => {
-              this.product = product;
+            next: (products: Product[]) => {
+              this.product = products[0];
               this.isLoading = false;
             },
             error: (error: any) => {

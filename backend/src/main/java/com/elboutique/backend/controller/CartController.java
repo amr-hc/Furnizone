@@ -42,7 +42,7 @@ public class CartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Claims claims = (Claims) authentication.getCredentials();
         Integer userId = claims.get("id", Integer.class);
-        Cart savedCart = cartService.addToCart(userId, cartRequest.getProductId(), cartRequest.getQuantity());
+        Cart savedCart = cartService.addToCart(userId, cartRequest.getProduct_id(), cartRequest.getQuantity());
         return ResponseEntity.status(201).body(savedCart);
     }
 

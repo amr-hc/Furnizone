@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:8000/api/auth';
+  private apiUrl = 'http://localhost:8080/api/v1/auth';
   private currentUserSubject: BehaviorSubject<any>;
   role: string | null = localStorage.getItem('role');
   currentUser: any = localStorage['currentUser'] ? JSON.parse(localStorage['currentUser']) : '';
@@ -25,7 +25,7 @@ export class AuthService {
         tap((response) => {
           this.currentUserSubject.next(response.user);
           localStorage.setItem('currentUser', JSON.stringify(response.user));
-          localStorage.setItem('token', response.access_token);
+          localStorage.setItem('token', response.accessToken);
           localStorage.setItem('role', response.role);
           this.role = response.role;
         })

@@ -41,7 +41,6 @@ export class LoginComponent {
     const { email, password } = this.loginForm.value;
     this.authService.login(email, password).subscribe(
       (response) => {
-        localStorage.setItem('token', response.access_token);
         // Notifying navbar about cart Length
         this.cartService.loginCase();
         // Redirect the user to the home page

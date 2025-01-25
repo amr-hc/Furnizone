@@ -5,7 +5,7 @@ import { inject } from '@angular/core';
 export const isUserGuard: CanActivateFn = (route, state) => {
   let authService = inject(AuthService);
   const router = inject(Router);
-  if (authService.role != 'user') {
+  if (authService.role != 'User') {
     router.navigateByUrl('unauthorized');
     return false;
   }

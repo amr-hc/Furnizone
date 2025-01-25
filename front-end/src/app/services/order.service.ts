@@ -10,7 +10,7 @@ import { Order } from '../models/order';
 })
 export class OrderService {
   public orders : Order[]=[];
-  private baseUrl = 'http://127.0.0.1:8000/api';
+  private baseUrl = 'http://127.0.0.1:8080/api/v1';
 
   constructor(private http: HttpClient) { }
 
@@ -27,13 +27,13 @@ export class OrderService {
   }
 
   cancel(id :number){
-    return this.http.get(`${this.baseUrl}/orders/${id}/cancel`);
+    return this.http.put(`${this.baseUrl}/orders/${id}/cancel`, null);
   }
   done(id :number){
-    return this.http.get(`${this.baseUrl}/orders/${id}/done`);
+    return this.http.put(`${this.baseUrl}/orders/${id}/done`, null);
   }
   createOrder(){
-    return this.http.post(`${this.baseUrl}/orders`,{});
+    return this.http.post(`${this.baseUrl}/orders`,null);
   }
 
 }

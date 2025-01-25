@@ -7,7 +7,7 @@ import { Product } from '../models/product';
   providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = 'http://127.0.0.1:8000/api';
+  private baseUrl = 'http://127.0.0.1:8080/api/v1';
 
   constructor(private http: HttpClient) {}
 
@@ -15,8 +15,10 @@ export class ProductService {
     return this.http.get<Product[]>(`${this.baseUrl}/products`);
   }
 
-  getProductByName(title: string): Observable<Product> {
-    return this.http.get<Product>(`${this.baseUrl}/products/title/${title}`);
+  getProductByName(title: string): Observable<Product[]> {
+    const url = `${this.baseUrl}/products/search?title=${encodeURIComponent(title)}`;
+    return this.http.get<Product[]>(url); // Adjust the type to `Product[]` if the backend returns a list
+  
   }
   getProductById(productId: number): Observable<Product> {
     return this.http.get<Product>(`${this.baseUrl}/products/${productId}`);
