@@ -60,4 +60,8 @@ public class ProductService {
         productRepository.delete(product);
     }
 
+    public List<Product> searchProductsByTitle(String title) {
+        return productRepository.findByTitleContainingIgnoreCase(title);
+    }
+
 }
