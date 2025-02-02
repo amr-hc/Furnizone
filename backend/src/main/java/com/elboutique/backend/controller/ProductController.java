@@ -40,7 +40,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductResponse>> getAllProducts(int page, int size) {
+    public ResponseEntity<Page<ProductResponse>> getAllProducts( @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size ) {
         return ResponseEntity.ok(productService.getAllProducts(page, size));
     }
 
