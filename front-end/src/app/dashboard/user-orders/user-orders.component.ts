@@ -23,7 +23,7 @@ export class UserOrdersComponent {
   ngOnInit() {
 
     const ordersubscriptions = this.OrderService.getOrders().subscribe(data => {
-      this.orders=data.data});
+      this.orders=data});
       this.ordersubscriptions.push(ordersubscriptions);
   }
 
