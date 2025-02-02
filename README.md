@@ -42,7 +42,7 @@ This is a **Spring Boot-based E-Commerce** that provides backend services for a
 
 ```bash
  git clone https://github.com/amr-hc/Furnizone.git
- cd Furnizone\backend
+ cd Furnizone/backend
 ```
 
 ### **2️⃣ Setup Database (MySQL)**
@@ -80,7 +80,7 @@ Clone the Angular frontend:
 
 ```bash
 git clone https://github.com/amr-hc/Furnizone.git
-cd Furnizone\front-end
+cd Furnizone/front-end
 npm install
 ng serve
 ```
