@@ -29,6 +29,11 @@ public class ProductService {
     @Value("${app.base-url}")
     private String baseUrl;
 
+    private Product findProductById(Integer id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+    }
+
     public Product createProduct(ProductRequest request, MultipartFile image) {
 
         String imagePath = fileStorageService.saveFile(image, "product");
@@ -44,9 +49,9 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product getProductById(Integer id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+    public ProductResponse getProductById(Integer id) {
+        Product product = findProductById(id);
+        return ProductResponse.fromProduct(product, baseUrl);
     }
 
     public Page<ProductResponse> getAllProducts(int page, int size) {
@@ -56,7 +61,7 @@ public class ProductService {
     }
 
     public Product updateProduct(Integer id, Product productDetails) {
-        Product product = getProductById(id);
+        Product product = findProductById(id);
 
         product.setTitle(productDetails.getTitle());
         product.setDescription(productDetails.getDescription());
@@ -68,7 +73,7 @@ public class ProductService {
     }
 
     public void deleteProduct(Integer id) {
-        Product product = getProductById(id);
+        Product product = findProductById(id);
         productRepository.delete(product);
     }
 
