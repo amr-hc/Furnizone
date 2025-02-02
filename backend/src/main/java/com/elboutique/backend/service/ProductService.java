@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.elboutique.backend.DTO.request.ProductRequest;
+import com.elboutique.backend.DTO.response.ProductResponse;
 import com.elboutique.backend.model.Product;
 import com.elboutique.backend.repository.ProductRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,9 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final FileStorageService fileStorageService;
+
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     public Product createProduct(ProductRequest request, MultipartFile image) {
 
@@ -44,9 +49,10 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
     }
 
-    public Page<Product> getAllProducts(int page, int size) {
-        Pageable pageableAfterCheck = PageRequest.of( page, Math.min(size, 100) );
-        return productRepository.findAll(pageableAfterCheck);
+    public Page<ProductResponse> getAllProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, Math.min(size, 100));
+        Page<Product> productPage = productRepository.findAll(pageable);
+        return productPage.map(product -> ProductResponse.fromProduct(product, baseUrl));
     }
 
     public Product updateProduct(Integer id, Product productDetails) {

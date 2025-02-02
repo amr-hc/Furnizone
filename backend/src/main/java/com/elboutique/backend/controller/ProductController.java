@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.elboutique.backend.DTO.request.ProductRequest;
+import com.elboutique.backend.DTO.response.ProductResponse;
 import com.elboutique.backend.model.Product;
 import com.elboutique.backend.service.ProductService;
 
@@ -39,7 +40,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Product>> getAllProducts(int page, int size) {
+    public ResponseEntity<Page<ProductResponse>> getAllProducts(int page, int size) {
         return ResponseEntity.ok(productService.getAllProducts(page, size));
     }
 
