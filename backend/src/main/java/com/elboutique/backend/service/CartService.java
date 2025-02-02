@@ -10,6 +10,8 @@ import com.elboutique.backend.repository.ProductRepository;
 import com.elboutique.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +25,9 @@ public class CartService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
+    @Value("${app.base-url}")
+    private String baseUrl;
+
     /**
      * Find all cart items by user ID.
      */
@@ -31,13 +36,7 @@ public class CartService {
         List<CartResponse> response = cartItems.stream()
             .<CartResponse>map(cart -> CartResponse.builder()
                 .id(cart.getId())
-                .product(ProductResponse.builder()
-                    .id(cart.getProduct().getId())
-                    .title(cart.getProduct().getTitle())
-                    .description(cart.getProduct().getDescription())
-                    .price(cart.getProduct().getPrice())
-                    .image(cart.getProduct().getImage())
-                    .build())
+                .product(ProductResponse.fromProduct(cart.getProduct(), baseUrl))
                 .quantity(cart.getQuantity())
                 .build())
             .collect(Collectors.toList());

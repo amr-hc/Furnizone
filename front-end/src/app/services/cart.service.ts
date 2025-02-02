@@ -33,7 +33,7 @@ export class CartService {
   }
 
   getOneCart(id: number) {
-    return this.http.get<Cart>(`${this.path}${id}`);
+    return this.http.get<Cart>(`${this.path}/${id}`);
   }
 
   addCartItem(cart: any) {
@@ -41,7 +41,7 @@ export class CartService {
   }
 
   updateCart(cart: Cart) {
-    return this.http.patch(`${this.path}${cart.id}`, cart);
+    return this.http.patch(`${this.path}/${cart.id}`, cart);
   }
 
   deleteCartItem(id: number) {

@@ -49,7 +49,7 @@ public class CartController {
     /**
      * Update the quantity of an item in the cart.
      */
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Cart> updateCartItem(@PathVariable Integer id, @Valid @RequestBody Cart cartRequest) {
         Cart updatedCart = cartService.updateCartItem(id, cartRequest);
         return ResponseEntity.ok(updatedCart);
