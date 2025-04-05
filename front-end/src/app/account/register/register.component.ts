@@ -18,10 +18,7 @@ export class RegisterComponent implements OnInit,OnDestroy {
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
-    password: [
-      '',
-      [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{8,}$/)],
-    ],
+    password: [ '', [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/)]],
     gender: ['', [Validators.required]],
   });
   constructor(

@@ -56,8 +56,8 @@ public class AuthenticationService {
             }
         }
 
-        var user = User.builder()
-        .fullName(request.getFullName())
+        User user = User.builder()
+        .fullName(request.getFull_name())
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
         .image(imagePath)
@@ -66,7 +66,7 @@ public class AuthenticationService {
 
         userRepository.save(user);
 
-        var jwtToken = jwtService.generateToken(user, "User");
+        String jwtToken = jwtService.generateToken(user, "User");
         return AuthenticationResponse
             .builder()
             .accessToken(jwtToken)
@@ -84,8 +84,8 @@ public class AuthenticationService {
         // Check if the user is in the `users` table
         Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
         if (userOptional.isPresent()) {
-            var user = userOptional.get();
-            var jwtToken = jwtService.generateToken(user, "User");
+            User user = userOptional.get();
+            String jwtToken = jwtService.generateToken(user, "User");
             return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .user(
@@ -98,8 +98,8 @@ public class AuthenticationService {
         // If not found, check the `admins` table
         Optional<Admin> adminOptional = adminRepository.findByEmail(request.getEmail());
         if (adminOptional.isPresent()) {
-            var admin = adminOptional.get();
-            var jwtToken = jwtService.generateToken(admin, "Admin");
+            Admin admin = adminOptional.get();
+            String jwtToken = jwtService.generateToken(admin, "Admin");
             return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .user(

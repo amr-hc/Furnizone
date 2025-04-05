@@ -5,6 +5,10 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.elboutique.backend.validation.ValidImage;
+
 @Data
 public class ProductRequest {
 
@@ -22,4 +26,7 @@ public class ProductRequest {
     @NotNull(message = "Stock is required.")
     @Min(value = 0, message = "Stock must be at least 0.")
     private Integer stock;
+
+    @ValidImage(message = "Please upload a valid image file.")
+    private MultipartFile image;
 }

@@ -4,16 +4,15 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.elboutique.backend.DTO.request.ProductRequest;
 import com.elboutique.backend.DTO.response.ProductResponse;
-import com.elboutique.backend.model.Product;
 import com.elboutique.backend.service.ProductService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 
 @RestController
@@ -24,14 +23,13 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@Valid @ModelAttribute ProductRequest product, @RequestParam("image") MultipartFile image) {
-        return ResponseEntity.ok(productService.createProduct(product, image));
+    public ResponseEntity<ProductResponse> createProduct(@Valid @ModelAttribute ProductRequest product) {
+        return ResponseEntity.ok(productService.createProduct(product));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Product>> searchProducts(@RequestParam String title) {
-        List<Product> products = productService.searchProductsByTitle(title);
-        return ResponseEntity.ok(products);
+    public ResponseEntity<List<ProductResponse>> searchProducts(@RequestParam String title) {
+        return ResponseEntity.ok(productService.searchProductsByTitle(title));
     }
 
     @GetMapping("/{id}")
@@ -40,12 +38,12 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductResponse>> getAllProducts( @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size ) {
-        return ResponseEntity.ok(productService.getAllProducts(page, size));
+    public ResponseEntity<Page<ProductResponse>> getAllProducts(Pageable pageable) {
+        return ResponseEntity.ok(productService.getAllProducts(pageable));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Integer id, @ModelAttribute ProductRequest product) {
         return ResponseEntity.ok(productService.updateProduct(id, product));
     }
 

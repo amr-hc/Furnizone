@@ -25,7 +25,7 @@ public class RegisterRequest {
 
     @NotBlank(message = "Full name is required.")
     @Size(min = 4, message = "Full name must be at least 4 characters long.")
-    private String fullName;
+    private String full_name;
 
     @NotBlank(message = "Email is required.")
     @Email(message = "Please provide a valid email address.")

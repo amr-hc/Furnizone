@@ -1,7 +1,7 @@
 package com.elboutique.backend.service;
 
 import com.elboutique.backend.DTO.response.CartResponse;
-import com.elboutique.backend.DTO.response.ProductResponse;
+import com.elboutique.backend.mapper.ProductMapper;
 import com.elboutique.backend.model.Cart;
 import com.elboutique.backend.model.Product;
 import com.elboutique.backend.model.User;
@@ -24,6 +24,7 @@ public class CartService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final ProductMapper productMapper;
 
     @Value("${app.base-url}")
     private String baseUrl;
@@ -32,11 +33,11 @@ public class CartService {
      * Find all cart items by user ID.
      */
     public List<CartResponse> findByUserId(Integer userId) {
-        var cartItems = cartRepository.findByUserId(userId);
+        List<Cart> cartItems = cartRepository.findByUserId(userId);
         List<CartResponse> response = cartItems.stream()
             .<CartResponse>map(cart -> CartResponse.builder()
                 .id(cart.getId())
-                .product(ProductResponse.fromProduct(cart.getProduct(), baseUrl))
+                .product(productMapper.toDto(cart.getProduct()))
                 .quantity(cart.getQuantity())
                 .build())
             .collect(Collectors.toList());
@@ -50,7 +51,7 @@ public class CartService {
     @Transactional
     public Cart addToCart(Integer userId, Integer productId, Integer quantity) {
         // Ensure the product exists
-        var product = productRepository.findById(productId)
+        Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
         // Check if the item already exists in the user's cart
