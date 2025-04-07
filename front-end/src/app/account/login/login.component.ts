@@ -44,7 +44,7 @@ export class LoginComponent {
         // Notifying navbar about cart Length
         this.cartService.loginCase();
         // Redirect the user to the home page
-        if (response.role === 'user') {
+        if (response.role === 'User') {
           this.router.navigate(['/home']);
         } else {
           this.router.navigate(['/adminDashboard']);

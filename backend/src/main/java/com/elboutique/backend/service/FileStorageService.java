@@ -36,7 +36,7 @@ public class FileStorageService {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             // Return the relative file path
-            return "/uploads/images/" + folder + "/" + fileName;
+            return "uploads/images/" + folder + "/" + fileName;
         } catch (IOException e) {
             throw new RuntimeException("Failed to save file", e);
         }

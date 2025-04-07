@@ -23,7 +23,7 @@ export class UserService {
 
   createUser(user: any): Observable<User> {
     const formData = new FormData();
-    formData.append('full_name', user.fullName);
+    formData.append('full_name', user.full_name);
     formData.append('email', user.email);
     formData.append('password', user.password);
     formData.append('gender', user.gender);

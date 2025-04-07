@@ -17,6 +17,7 @@ import com.elboutique.backend.DTO.request.RegisterRequest;
 import com.elboutique.backend.DTO.response.AuthenticationResponse;
 import com.elboutique.backend.DTO.response.UserResponse;
 import com.elboutique.backend.config.JwtService;
+import com.elboutique.backend.mapper.UserMapper;
 import com.elboutique.backend.model.Admin;
 import com.elboutique.backend.model.User;
 import com.elboutique.backend.repository.AdminRepository;
@@ -32,28 +33,14 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserMapper userMapper;
+    private final FileStorageService fileStorageService;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        String imagePath = "uploads/images/default.jpg";
+        String imagePath = "uploads/images/user/default.png";
+
         if (request.getImage() != null && !request.getImage().isEmpty()) {
-            try {
-                // Define the directory where images will be stored
-                String uploadDir = "uploads/images/";
-                // Create the directory if it doesn't exist
-                Files.createDirectories(Paths.get(uploadDir));
-
-                // Generate a unique filename
-                String fileName = UUID.randomUUID().toString() + "_" + request.getImage().getOriginalFilename();
-
-                // Save the file to the directory
-                Path filePath = Paths.get(uploadDir, fileName);
-                Files.copy(request.getImage().getInputStream(), filePath);
-
-                // Store the file path for saving in the database
-                imagePath = filePath.toString();
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to save image", e);
-            }
+            imagePath = fileStorageService.saveFile(request.getImage(), "user");
         }
 
         User user = User.builder()
@@ -88,9 +75,7 @@ public class AuthenticationService {
             String jwtToken = jwtService.generateToken(user, "User");
             return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
-                .user(
-                    UserResponse.builder().id(user.getId()).full_name(user.getFullName()).email(user.getEmail()).image_url(user.getImage()).gender(user.getGender()).build()
-                    )
+                .user(userMapper.toDto(user))
                 .role("User")
                 .build();
         }
@@ -110,7 +95,6 @@ public class AuthenticationService {
         }
 
         throw new UsernameNotFoundException("Invalid credentials");
-    
 
     }
 

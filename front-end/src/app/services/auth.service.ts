@@ -16,6 +16,9 @@ export class AuthService {
     this.currentUserSubject = new BehaviorSubject<any>(
       storedUser ? JSON.parse(storedUser) : null
     );
+    this.currentUserSubject.subscribe((user)=>{
+      this.currentUser = user;
+    })
   }
 
   login(email: string, password: string): Observable<any> {
