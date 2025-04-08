@@ -1,15 +1,14 @@
 package com.elboutique.backend.service;
 
 import com.elboutique.backend.DTO.response.UserResponse;
+import com.elboutique.backend.mapper.UserMapper;
 import com.elboutique.backend.model.User;
 import com.elboutique.backend.repository.UserRepository;
 import com.elboutique.backend.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +19,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-
-    @Value("${app.base-url}")
-    private String baseUrl;
+    private final UserMapper userMapper;
 
     public User createUser(User user) {
         return userRepository.save(user);
@@ -33,18 +30,14 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
-    public Page<UserResponse> getAllUsers(int page, int size) {
-        Pageable pageable = PageRequest.of(page, Math.min(size, 100));
+    public Page<UserResponse> getAllUsers(Pageable pageable) {
         Page<User> users = userRepository.findAll(pageable);
-        return users.map(user -> UserResponse.fromUser(user, this.baseUrl));
+        return users.map(userMapper::toDto);
     }
 
     public User updateUser(Integer id, User updatedUser) {
-        User user = getUserById(id); // Use the getUserById method to check existence
-        user.setFullName(updatedUser.getFullName());
-        user.setEmail(updatedUser.getEmail());
-        user.setImage(updatedUser.getImage());
-        user.setGender(updatedUser.getGender());
+        User user = getUserById(id);
+        userMapper.updateUser(updatedUser, user);
         return userRepository.save(user);
     }
 

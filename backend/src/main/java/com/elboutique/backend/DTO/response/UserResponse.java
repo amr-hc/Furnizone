@@ -1,7 +1,5 @@
 package com.elboutique.backend.DTO.response;
 
-import com.elboutique.backend.model.User;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,12 +16,4 @@ public class UserResponse {
     private String gender;
     private String image_url;
 
-    public static UserResponse fromUser(User user, String baseUrl) {
-        return UserResponse.builder()
-            .id(user.getId())
-            .full_name(user.getFullName())
-            .email(user.getEmail())
-            .image_url(user.getImage() != null ? baseUrl + "/" + user.getImage() : null)
-            .build();
-    }
 }
