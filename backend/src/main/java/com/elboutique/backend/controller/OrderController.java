@@ -3,13 +3,12 @@ package com.elboutique.backend.controller;
 import com.elboutique.backend.DTO.response.OrderResponse;
 import com.elboutique.backend.model.Order;
 import com.elboutique.backend.service.OrderService;
+import com.elboutique.backend.utilities.AuthUtils;
 
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,6 +21,7 @@ import java.util.Map;
 public class OrderController {
 
     private final OrderService orderService;
+    private final AuthUtils authUtils;
 
     @GetMapping
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
@@ -35,9 +35,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Claims claims = (Claims) authentication.getCredentials();
-        Integer userId = claims.get("id", Integer.class);
+        Integer userId = authUtils.getAuthenticatedUser().getId();
         Order order = orderService.createOrder(userId);
         return ResponseEntity.status(201).body(OrderResponse.fromEntity(order));
     }
