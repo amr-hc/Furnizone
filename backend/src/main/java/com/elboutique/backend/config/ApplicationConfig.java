@@ -34,7 +34,8 @@ public class ApplicationConfig {
             Optional<User> userOptional = userRepository.findByEmail(username);
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                return new org.springframework.security.core.userdetails.User(
+                return new CustomUserDetails(
+                    user.getId(),
                     user.getEmail(),
                     user.getPassword(),
                     List.of(new SimpleGrantedAuthority("ROLE_USER"))
@@ -45,10 +46,11 @@ public class ApplicationConfig {
             Optional<Admin> adminOptional = adminRepository.findByEmail(username);
             if (adminOptional.isPresent()) {
                 Admin admin = adminOptional.get();
-                return new org.springframework.security.core.userdetails.User(
-                    admin.getEmail(),
-                    admin.getPassword(),
-                    List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                return new CustomUserDetails(
+                        admin.getId(),
+                        admin.getEmail(),
+                        admin.getPassword(),
+                        List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))
                 );
             }
 

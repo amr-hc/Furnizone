@@ -5,12 +5,10 @@ import com.elboutique.backend.DTO.response.CartResponse;
 import com.elboutique.backend.model.Cart;
 import com.elboutique.backend.service.CartService;
 
-import io.jsonwebtoken.Claims;
+import com.elboutique.backend.utilities.AuthUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,15 +19,13 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
-
+    private final AuthUtils authUtils;
     /**
      * Get all cart items for the authenticated user.
      */
     @GetMapping
     public ResponseEntity<List<CartResponse>> getUserCartItems() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Claims claims = (Claims) authentication.getCredentials();
-        Integer userId = claims.get("id", Integer.class);
+        Integer userId = authUtils.getAuthenticatedUser().getId();
         List<CartResponse> userCartItems = cartService.findByUserId(userId);
         return ResponseEntity.ok(userCartItems);
     }
@@ -39,9 +35,7 @@ public class CartController {
      */
     @PostMapping
     public ResponseEntity<Cart> addToCart(@Valid @RequestBody CartRequest cartRequest) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Claims claims = (Claims) authentication.getCredentials();
-        Integer userId = claims.get("id", Integer.class);
+        Integer userId = authUtils.getAuthenticatedUser().getId();
         Cart savedCart = cartService.addToCart(userId, cartRequest.getProduct_id(), cartRequest.getQuantity());
         return ResponseEntity.status(201).body(savedCart);
     }

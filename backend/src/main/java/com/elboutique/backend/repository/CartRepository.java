@@ -4,6 +4,7 @@ package com.elboutique.backend.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.elboutique.backend.model.Cart;
@@ -12,6 +13,7 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
     /**
      * Find all cart items by user ID.
      */
+    @EntityGraph(attributePaths = "product")
     List<Cart> findByUserId(Integer userId);
 
     /**
