@@ -43,8 +43,8 @@ export class ProductService {
   }
 
   updateProduct(productId: number, product: FormData): Observable<Product> {
-    return this.http.post<Product>(
-      `${this.baseUrl}/products/${productId}?_method=PATCH`,
+    return this.http.patch<Product>(
+      `${this.baseUrl}/products/${productId}`,
       product
     );
   }

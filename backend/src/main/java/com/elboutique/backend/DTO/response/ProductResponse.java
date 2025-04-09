@@ -1,5 +1,6 @@
 package com.elboutique.backend.DTO.response;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductResponse {
+public class ProductResponse implements Serializable {
     private Integer id;
     private String title;
     private String description;
