@@ -45,6 +45,12 @@ public class ProductController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin")
+    public Page<ProductResponse> getAllProductsForAdmin(Pageable pageable) {
+        return productService.getAllProductsForAdmin(pageable);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable Integer id, @ModelAttribute ProductRequest product) {
         return ResponseEntity.ok(productService.updateProduct(id, product));

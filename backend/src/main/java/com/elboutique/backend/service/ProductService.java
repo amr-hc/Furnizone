@@ -52,6 +52,11 @@ public class ProductService {
 
     @Cacheable(value = "products", key = "#pageable.pageNumber + '-' + #pageable.pageSize")
     public Page<ProductResponse> getAllProducts(Pageable pageable) {
+        Page<Product> productPage = productRepository.findAllInStock(pageable);
+        return productPage.map(product -> productMapper.toDto(product));
+    }
+
+    public Page<ProductResponse> getAllProductsForAdmin(Pageable pageable) {
         Page<Product> productPage = productRepository.findAll(pageable);
         return productPage.map(product -> productMapper.toDto(product));
     }

@@ -17,6 +17,11 @@ export class ProductService {
     return this.http.get<Page<Product>>(`${this.baseUrl}/products`, { params });
   }
 
+  getProductsForAdmins(page: number, size: number): Observable<Page<Product>> {
+    const params = new HttpParams().set('page', page).set('size', size);
+    return this.http.get<Page<Product>>(`${this.baseUrl}/products/admin`, { params });
+  }
+
   getProductByName(title: string): Observable<Product[]> {
     const url = `${this.baseUrl}/products/search?title=${encodeURIComponent(title)}`;
     return this.http.get<Product[]>(url);

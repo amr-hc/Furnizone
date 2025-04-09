@@ -27,7 +27,7 @@ export class ProductsComponent implements OnInit {
   }
 
   loadProducts(): void {
-    this.productService.getProducts(this.currentPage, this.pageSize).subscribe(
+    this.productService.getProductsForAdmins(this.currentPage, this.pageSize).subscribe(
       (data: Page<Product>) => {
         this.products = data.content;
         this.totalElements = data.totalElements;
